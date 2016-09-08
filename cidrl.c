@@ -25,6 +25,10 @@ int main( int argc, char **argv ) {
         return 2; // Invalid IP address.
     }
 
+    if (bits > 32) {
+        return 3;
+    }
+
     if (bits == 32) {
         printf("%s\n", inet_ntoa(addr));
         return 0;
