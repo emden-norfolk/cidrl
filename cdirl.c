@@ -1,3 +1,12 @@
+/*
+ * cidrl
+ *
+ * Lists all IP addresses within a CIDR block.
+ *
+ * @author Damien Bezborodov
+ * @link https://github.com/emden-norfolk/cidrl
+ */
+
 #include <stdio.h>
 #include <arpa/inet.h>
 
