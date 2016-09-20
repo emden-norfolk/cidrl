@@ -3,6 +3,8 @@ List All IP Addresses within a CIDR Block (PHP)
 
 ## Synopsis
 
+Simple array usage:
+
 ```php
 require_once 'cidrl.php';
 var_dump(cidrl('194.168.0.1/28'));
@@ -45,4 +47,14 @@ array(16) {
   [15]=>
   string(12) "194.168.0.15"
 }
+```
+
+Recommended usage with anonymous function:
+
+```php
+require_once 'cidrl.php';
+cidrl('194.168.0.1/28', $error_code, function($address) {
+	// Do something.
+	print "$address\n";
+});
 ```

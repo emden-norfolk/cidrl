@@ -6,10 +6,9 @@ require_once __DIR__ .'/cidrl.php';
 if ($argc != 2) {
 	exit(1); // Not an argument.
 }
-$addresses = cidrl($argv[1], $error_code);
-if ($addresses === false) {
-	exit($error_code); // Invalid IP address.
-}
-foreach ($addresses as $address) {
+cidrl($argv[1], $error_code, function($address) {
 	print "$address\n";
+});
+if ($error_code !== 0) {
+	exit($error_code); // Invalid IP address.
 }
