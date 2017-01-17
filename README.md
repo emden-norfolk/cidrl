@@ -1,3 +1,5 @@
+Note: This is written in C. There is also a PHP version under the `php` directory.
+
 # cidrl
 List All IP Addresses within a CIDR Block
 
