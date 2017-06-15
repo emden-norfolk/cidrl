@@ -1,0 +1,20 @@
+
+{
+    "name": "emden-norfolk/cidrl",
+    "type": "library",
+    "description": "IP tools for CIDR blocks.",
+    "keywords": ["ip","cidr"],
+    "homepage": "https://github.com/emden-norfolk/cidrl",
+    "license": "LGPL-2.0",
+    "authors": [
+        {
+            "name": "Damien Bezborodov",
+            "email": "dbezborodov@gmail.com",
+            "homepage": "https://github.com/emden-norfolk",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0"
+    }
+}
