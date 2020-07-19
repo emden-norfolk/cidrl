@@ -3,9 +3,6 @@
  *
  * Lists all IP addresses within a CIDR block.
  *
- * To compile:
- * gcc -o cidrl cidrl.c -Wall
- *
  * Usage:
  * ./cidrl 192.168.0.1/28
  *
