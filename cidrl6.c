@@ -45,12 +45,10 @@ int main( int argc, char **argv ) {
         return 0;
     }
 
-    mask = ~(0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF >> bits);
-
-    printf("%u\n", mask);
-
-
+    printf("Test: %u\n", addr.s6_addr[1]);
     /*
+
+    mask = ~(0xFFFFFFFF >> bits);
 
     hladdr = ntohl(addr.s_addr);
     hladdr_start = hladdr & mask;
