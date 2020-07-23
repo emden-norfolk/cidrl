@@ -12,11 +12,13 @@
 
 #include <stdio.h>
 #include <arpa/inet.h>
+#include <math.h>
 
 int main( int argc, char **argv ) {
     char addr_buffer[48];
     struct in6_addr addr;
-    int mask, hladdr, hladdr_start, hladdr_end, i;
+    unsigned int mask, hladdr, hladdr_start, hladdr_end;
+    unsigned int trailing = 0;
     unsigned int bits;
 
     // Check that a CIDR is given as an argument.
@@ -45,7 +47,12 @@ int main( int argc, char **argv ) {
         return 0;
     }
 
-    printf("Test: %u\n", addr.s6_addr[1]);
+    for (int i = 0; i < 4; i++) {
+        trailing += pow(2, i * 8) * addr.s6_addr[15 - i];
+    }
+
+    printf("Test: %u\n", trailing);
+
     /*
 
     mask = ~(0xFFFFFFFF >> bits);
