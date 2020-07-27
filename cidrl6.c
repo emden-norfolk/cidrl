@@ -30,7 +30,6 @@ int main( int argc, char **argv ) {
     // Scan the CIDR argument into separate network and subnet mask.
     sscanf(argv[1], "%[^/]/%u", addr_buffer, &bits);
 
-
     // Parse the IPv6 string into an integer.
     if (inet_pton(AF_INET6, addr_buffer, &addr) == 0) {
         fprintf(stderr, "Error: Invalid IPv6 address given.\n");
@@ -51,21 +50,21 @@ int main( int argc, char **argv ) {
         trailing += pow(2, i * 8) * addr.s6_addr[15 - i];
     }
 
-    printf("Test: %u\n", trailing);
+    printf("Trailing: %u\n", trailing);
 
-    /*
+    mask = ~(0xFFFFFFFF >> bits - 96);
+    printf("Mask: %u\n", mask);
 
-    mask = ~(0xFFFFFFFF >> bits);
-
-    hladdr = ntohl(addr.s_addr);
+    hladdr = ntohl(trailing);
     hladdr_start = hladdr & mask;
     hladdr_end = (hladdr & mask) | ~mask;
 
-    for (i = hladdr_start; i <= hladdr_end; i++) {
-        addr.s_addr = htonl(i);
-        printf("%s\n", inet_ntop(addr));
+    for (int i = hladdr_start; i <= hladdr_end; i++) {
+        //addr.s_addr = htonl(i);
+        //printf("%s\n", inet_ntop(addr));
+        inet_ntop(AF_INET6, &addr, addr_buffer, 48);
+        printf("%s\n", addr_buffer);
     }
-    */
 
     return 0;
 }
