@@ -5,3 +5,9 @@ cidrl: cidrl.c
 
 cidrl6: cidrl6.c
 	gcc -o cidrl6 cidrl6.c -Wall -lm
+
+clean:
+	rm cidrl cidrl6
+
+install:
+	cp cidrl cidrl6 /usr/local/bin/
