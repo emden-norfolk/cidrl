@@ -50,18 +50,21 @@ int main( int argc, char **argv ) {
         trailing += pow(2, i * 8) * addr.s6_addr[15 - i];
     }
 
-    printf("Trailing: %u\n", trailing);
+    //printf("Trailing: %u\n", trailing);
 
-    mask = ~(0xFFFFFFFF >> bits - 96);
-    printf("Mask: %u\n", mask);
+    mask = ~(0xFFFFFFFF >> (bits - 96));
+    //printf("Mask: %u\n", mask);
 
-    hladdr = ntohl(trailing);
+    hladdr = trailing;
     hladdr_start = hladdr & mask;
     hladdr_end = (hladdr & mask) | ~mask;
 
-    for (int i = hladdr_start; i <= hladdr_end; i++) {
-        //addr.s_addr = htonl(i);
-        //printf("%s\n", inet_ntop(addr));
+    for (int hladdr_cur = hladdr_start; hladdr_cur <= hladdr_end; hladdr_cur++) {
+        for (int i = 0; i < 4; i++) {
+
+            //printf("Cur: %u\n", *((unsigned char*)&hladdr_cur + i));
+            addr.s6_addr[15 - i] = *((unsigned char*)&hladdr_cur + i);
+        }
         inet_ntop(AF_INET6, &addr, addr_buffer, 48);
         printf("%s\n", addr_buffer);
     }
