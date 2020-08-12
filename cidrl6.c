@@ -18,19 +18,20 @@
 
 /*
  * Get the least significant 32 bits from a 128 bit address.
- * An hextet is 16 bits, so the last two hextets.
+ *
+ * (A quadlet is 32 bits.)
  *
  * E.g., fa01::7000:1a00 will return 70001a00.
  */
 unsigned int in6_addr_least_signficiant_32bits(struct in6_addr *addr)
 {
-    unsigned int lst_sig_hextets = 0;
+    unsigned int quadlet = 0;
 
     for (int i = 0; i < 4; i++) {
-        lst_sig_hextets += pow(2, i * 8) * addr->s6_addr[15 - i];
+        quadlet += pow(2, i * 8) * addr->s6_addr[15 - i];
     }
 
-    return lst_sig_hextets;
+    return quadlet;
 }
 
 /**
@@ -74,18 +75,18 @@ int main( int argc, char **argv )
         return 0;
     }
 
-    // Extract the least significant 32 bits (double hextet) of the 128-bit address.
+    // Extract the least significant 32 bits (quadlet) of the 128-bit address.
     // 32 bits is the largest integer that can be easily worked with natively (to my knowledge.)
-    unsigned int lst_sig_hextets = in6_addr_least_signficiant_32bits(&addr);
+    unsigned int lst_sig_quadlet = in6_addr_least_signficiant_32bits(&addr);
 
     // Convert 128 bit decimal bitmask number into 32 bit binary mask.
     unsigned int mask = ~(0xFFFFFFFF >> (bitmask - 96));
 
     // Loop over and display every address in the given CIDR block.
-    unsigned int end = (lst_sig_hextets & mask) | ~mask;
-    for (int i = lst_sig_hextets & mask; i <= end; i++) {
+    unsigned int end = (lst_sig_quadlet & mask) | ~mask;
+    for (int i = lst_sig_quadlet & mask; i <= end; i++) {
 
-        // Transpose the least significant 32 bits onto the full 128 bit address.
+        // Transplant the quadlet onto the full 128 bit address.
         for (int j = 0; j < 4; j++) {
             addr.s6_addr[15 - j] = *((unsigned char*)&i + j);
         }
