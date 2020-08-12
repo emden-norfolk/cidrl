@@ -3,6 +3,8 @@
  *
  * Lists all IPv6 addresses within a CIDR block.
  *
+ * Classless Inter-Domain Routing
+ *
  * Usage:
  * ./cidrl6 2001:db8:0:8a2e::/124
  *
@@ -14,12 +16,31 @@
 #include <arpa/inet.h>
 #include <math.h>
 
-int main( int argc, char **argv ) {
+/*
+ * Get the least significant 32 bits from a 128 bit address.
+ * An hextet is 16 bits, so the last two hextets.
+ *
+ * E.g., fa01::7000:1a00 will return 70001a00.
+ */
+unsigned int in6_addr_least_signficiant_32bits(struct in6_addr *addr)
+{
+    unsigned int lst_sig_hextets = 0;
+
+    for (int i = 0; i < 4; i++) {
+        lst_sig_hextets += pow(2, i * 8) * addr->s6_addr[15 - i];
+    }
+
+    return lst_sig_hextets;
+}
+
+/**
+ * Main
+ */
+int main( int argc, char **argv )
+{
     char addr_buffer[48];
     struct in6_addr addr;
-    unsigned int mask, hladdr, hladdr_start, hladdr_end;
-    unsigned int trailing = 0;
-    unsigned int bits;
+    unsigned int bitmask;
 
     // Check that a CIDR is given as an argument.
     if (argc != 2) {
@@ -28,43 +49,48 @@ int main( int argc, char **argv ) {
     }
 
     // Scan the CIDR argument into separate network and subnet mask.
-    sscanf(argv[1], "%[^/]/%u", addr_buffer, &bits);
+    sscanf(argv[1], "%[^/]/%u", addr_buffer, &bitmask);
 
     // Parse the IPv6 string into an integer.
     if (inet_pton(AF_INET6, addr_buffer, &addr) == 0) {
         fprintf(stderr, "Error: Invalid IPv6 address given.\n");
         return 2;
     }
-    if (bits > 128) {
+    if (bitmask > 128) {
         fprintf(stderr, "Error: Invalid subnet mask given.\n");
         return 3;
     }
 
-    if (bits == 128) {
+    if (bitmask < 96) {
+        fprintf(stderr, "Error: Subnet masks less than 96 bits are not currently supported by this programme.\n");
+        // This would require working with 128 bit integers instead of 32 bit as per below.
+        return 3;
+    }
+
+    if (bitmask == 128) {
+        // Easy done! There is only one address if the mask is 128 bits. Let's print it now.
         inet_ntop(AF_INET6, &addr, addr_buffer, 48);
         printf("%s\n", addr_buffer);
         return 0;
     }
 
-    for (int i = 0; i < 4; i++) {
-        trailing += pow(2, i * 8) * addr.s6_addr[15 - i];
-    }
+    // Extract the least significant 32 bits (double hextet) of the 128-bit address.
+    // 32 bits is the largest integer that can be easily worked with natively (to my knowledge.)
+    unsigned int lst_sig_hextets = in6_addr_least_signficiant_32bits(&addr);
 
-    //printf("Trailing: %u\n", trailing);
+    // Convert 128 bit decimal bitmask number into 32 bit binary mask.
+    unsigned int mask = ~(0xFFFFFFFF >> (bitmask - 96));
 
-    mask = ~(0xFFFFFFFF >> (bits - 96));
-    //printf("Mask: %u\n", mask);
+    // Loop over and display every address in the given CIDR block.
+    unsigned int end = (lst_sig_hextets & mask) | ~mask;
+    for (int i = lst_sig_hextets & mask; i <= end; i++) {
 
-    hladdr = trailing;
-    hladdr_start = hladdr & mask;
-    hladdr_end = (hladdr & mask) | ~mask;
-
-    for (int hladdr_cur = hladdr_start; hladdr_cur <= hladdr_end; hladdr_cur++) {
-        for (int i = 0; i < 4; i++) {
-
-            //printf("Cur: %u\n", *((unsigned char*)&hladdr_cur + i));
-            addr.s6_addr[15 - i] = *((unsigned char*)&hladdr_cur + i);
+        // Transpose the least significant 32 bits onto the full 128 bit address.
+        for (int j = 0; j < 4; j++) {
+            addr.s6_addr[15 - j] = *((unsigned char*)&i + j);
         }
+
+        // Transfer the IPv6 address into the character buffer and print.
         inet_ntop(AF_INET6, &addr, addr_buffer, 48);
         printf("%s\n", addr_buffer);
     }
