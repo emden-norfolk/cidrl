@@ -1,4 +1,4 @@
-# CIDRL — CIDR List
+# `cidrl` — CIDR List
 
 List all IP Addresses within a CIDR block (IPv4 and IPv6.)
 
@@ -12,7 +12,7 @@ sudo make install
 
 ## Usage
 
-IPv4
+### `cidrl` for IPv4
 
 ```
 $ cidrl 192.168.50.16/29
@@ -26,7 +26,7 @@ $ cidrl 192.168.50.16/29
 192.168.50.23
 ```
 
-IPv6
+### `cidrl6` for IPv6
 
 ```
 $ cidrl6 fa01::0000:0a10/124
