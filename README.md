@@ -6,6 +6,7 @@ List all IP Addresses within a CIDR block (IPv4 and IPv6.)
 
 ```
 git clone git@github.com:emden-norfolk/cidrl.git
+cd cidrl
 make
 sudo make install
 ```
@@ -46,7 +47,6 @@ fa01::a1c
 fa01::a1d
 fa01::a1e
 fa01::a1f
-
 ```
 
 ## Author
