@@ -16,6 +16,7 @@ sudo make install
 ### `cidrl` for IPv4
 
 ```
+$ man cidrl
 $ cidrl 192.168.50.16/29
 192.168.50.16
 192.168.50.17
@@ -30,6 +31,7 @@ $ cidrl 192.168.50.16/29
 ### `cidrl6` for IPv6
 
 ```
+$ man cidrl6
 $ cidrl6 fa01::0000:0a10/124
 fa01::a10
 fa01::a11

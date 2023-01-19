@@ -1,26 +1,26 @@
 .Dd January 20, 2023
-.Dt CIDRL 1
+.Dt CIDRL6 1
 .Os
 .Sh NAME
-.Nm cidrl
-.Nd List all IPv4 Addresses within a CIDR block.
+.Nm cidrl6
+.Nd List all IPv6 Addresses within a CIDR block.
 .Sh SYNOPSIS
 .Nm
 .Ar CIDR-block
 .Sh DESCRIPTION
 The
 .Nm
-utlity prints all IPv4 addresses within a given CIDR block.
+utlity prints all IPv6 addresses within a given CIDR block.
 .Pp
 .Sh EXAMPLES
-List IPv4 addresses within a CIDR block:
+List IPv6 addresses within a CIDR block:
 .Pp
-.Dl cidrl 192.168.50.16/29
+.Dl cidrl fa01::0000:0a10/124
 .Sh BUGS
 Issue tracker: <https://github.com/emden-norfolk/cidrl/issues>
 .Sh AUTHOR
 .An Damien Bezborodov
 .Sh COPYRIGHT
-Copyright \(co 2016 Damien Bezborodov
+Copyright \(co 2020 Damien Bezborodov
 .br
 BSD-3 license.
