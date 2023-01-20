@@ -12,5 +12,4 @@ clean:
 install:
 	cp cidrl cidrl6 /usr/local/bin/
 	mkdir --parents /usr/local/share/man/man1/
-	cp cidrl.1 /usr/local/share/man/man1/
-	cp cidrl6.1 /usr/local/share/man/man1/
+	cp man/* /usr/local/share/man/man1/
