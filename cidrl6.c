@@ -28,6 +28,8 @@ uint32_t in6_addr_least_signficiant_32bits(struct in6_addr *addr)
     uint32_t quadlet = 0;
 
     for (uint8_t i = 0; i < 4; i++) {
+        // TODO remove dependency on libm. Test first though.
+        // quadlet += (1 << i * 8) * addr->s6_addr[15 - i];
         quadlet += pow(2, i * 8) * addr->s6_addr[15 - i];
     }
 
@@ -76,6 +78,8 @@ int main(int argc, char **argv)
     }
 
     // Extract the least significant 32 bits (quadlet) of the 128-bit address.
+    // TODO Strange behaviour here. Re-examine and test this. Does the bitmask
+    // cancel out the need for lst_sig_quadlet? Setting to zero has no maleffect.
     uint32_t lst_sig_quadlet = in6_addr_least_signficiant_32bits(&addr);
 
     // Convert 128 bit decimal bitmask number into 32 bit binary mask.
