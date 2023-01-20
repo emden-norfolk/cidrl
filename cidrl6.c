@@ -8,6 +8,9 @@
  * Usage:
  * ./cidrl6 2001:db8:0:8a2e::/124
  *
+ * TODO Implement option to break A CIDRL into smaller subclasses.
+ * Probably more useful when dealing with IPv6.
+ *
  * @author Damien Bezborodov
  * @link https://github.com/emden-norfolk/cidrl
  */
