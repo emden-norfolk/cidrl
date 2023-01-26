@@ -6,6 +6,7 @@
 .Nd List all IPv4 Addresses within a CIDR block.
 .Sh SYNOPSIS
 .Nm
+.Op Fl s Ar subnetwork
 .Ar CIDR-block
 .Sh DESCRIPTION
 The
@@ -16,6 +17,10 @@ utlity prints all IPv4 addresses within a given CIDR block.
 List IPv4 addresses within a CIDR block:
 .Pp
 .Dl cidrl 192.168.50.16/29
+.Pp
+Split a /24 into /28:
+.Pp
+.Dl cidrl -s28 10.0.0.0/24
 .Sh SEE ALSO
 cidrl6(1)
 .Sh BUGS

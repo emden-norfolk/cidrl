@@ -1,12 +1,9 @@
 /*
- * cidrl
+ * cidrl6
  *
  * Lists all IPv6 addresses within a CIDR block.
  *
  * Classless Inter-Domain Routing
- *
- * Usage:
- * ./cidrl6 2001:db8:0:8a2e::/124
  *
  * TODO Implement option to break A CIDRL into smaller subclasses.
  * Probably more useful when dealing with IPv6.
@@ -50,7 +47,7 @@ int main(int argc, char **argv)
 
     // Check that a CIDR is given as an argument.
     if (argc != 2) {
-        fprintf(stderr, "Error: A CIDR must be given as the first argument.\n");
+        fprintf(stderr, "Error: An IPv6 CIDR must be given as the first argument.\n");
         return 1;
     }
 
