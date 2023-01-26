@@ -77,4 +77,4 @@ fa01::a1f
 
 ## Author
 
-2016 Damien Bezborodow
+2016 (c) Damien Bezborodov
