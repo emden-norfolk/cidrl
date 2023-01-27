@@ -59,25 +59,27 @@ $ cidrl -s28 10.0.0.0/24
 
 ### `cidrl6` for IPv6
 
+Split an IPv6 /60 into /64:
+
 ```console
 $ man cidrl6
-$ cidrl6 fa01::0000:0a10/124
-fa01::a10
-fa01::a11
-fa01::a12
-fa01::a13
-fa01::a14
-fa01::a15
-fa01::a16
-fa01::a17
-fa01::a18
-fa01::a19
-fa01::a1a
-fa01::a1b
-fa01::a1c
-fa01::a1d
-fa01::a1e
-fa01::a1f
+$ cidrl6 -s64 fa01:0:0:ffa0::/60
+fa01:0:0:ffa0::/64
+fa01:0:0:ffa1::/64
+fa01:0:0:ffa2::/64
+fa01:0:0:ffa3::/64
+fa01:0:0:ffa4::/64
+fa01:0:0:ffa5::/64
+fa01:0:0:ffa6::/64
+fa01:0:0:ffa7::/64
+fa01:0:0:ffa8::/64
+fa01:0:0:ffa9::/64
+fa01:0:0:ffaa::/64
+fa01:0:0:ffab::/64
+fa01:0:0:ffac::/64
+fa01:0:0:ffad::/64
+fa01:0:0:ffae::/64
+fa01:0:0:ffaf::/64
 ```
 
 ## Author
