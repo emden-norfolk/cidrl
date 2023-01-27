@@ -11,9 +11,9 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <unistd.h>
 #include <arpa/inet.h>
-#include <stdbool.h>
 
 extern char *optarg;
 extern int optind;
@@ -21,11 +21,11 @@ extern int optind;
 int main(int argc, char **argv) {
     char network[15];
     struct in_addr addr;
-    int mask, hladdr, hladdr_start, hladdr_end, i;
-    unsigned int bits;
-    int opt;
-    int subnetwork = 0;
+    uint32_t mask, hladdr, hladdr_start, hladdr_end, i;
+    uint8_t bits;
+    uint8_t subnetwork = 0;
     bool analyse = false;
+    int opt;
 
     while ((opt = getopt(argc, argv, "as:")) != -1) {
         switch (opt) {
@@ -42,10 +42,10 @@ int main(int argc, char **argv) {
 
     if (argc <= optind) {
         fprintf(stderr, "Error: An IPv4 CIDR must be given as the first argument.\n");
-        return 1; // Not an argument.
+        return 1;
     }
 
-    sscanf(argv[optind], "%[^/]/%u", network, &bits);
+    sscanf(argv[optind], "%[^/]/%hhu", network, &bits);
     if (inet_aton(network, &addr) == 0) {
         fprintf(stderr, "Error: Invalid IP address given.\n");
         return 2;
@@ -78,7 +78,7 @@ int main(int argc, char **argv) {
 
         for (i = hladdr_start; i <= hladdr_end; i += (1 << (32 - subnetwork))) {
             addr.s_addr = htonl(i);
-            printf("%s/%u\n", inet_ntoa(addr), subnetwork);
+            printf("%s/%hhu\n", inet_ntoa(addr), subnetwork);
         }
 
         return 0;
