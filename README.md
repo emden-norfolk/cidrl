@@ -2,6 +2,8 @@
 
 List all IP addresses within a CIDR block (IPv4 and IPv6.)
 
+Supports subnetting.
+
 ## Installation
 
 ```console

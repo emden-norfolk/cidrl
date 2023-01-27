@@ -18,24 +18,6 @@
 extern char *optarg;
 extern int optind;
 
-/*
- * Get the least significant 32 bits from a 128 bit address.
- *
- * (A quadlet is 32 bits.)
- *
- * E.g., fa01::7000:1a00 will return 70001a00.
- */
-uint32_t in6_addr_least_signficiant_32bits(struct in6_addr *addr)
-{
-    uint32_t quadlet = 0;
-
-    for (uint8_t i = 0; i < 4; i++) {
-        quadlet += (1 << i * 8) * addr->s6_addr[15 - i];
-    }
-
-    return quadlet;
-}
-
 /**
  * Calculate a 128-bit mask given a network prefix.
  */
@@ -70,6 +52,32 @@ void in6_addr_end(struct in6_addr *end, struct in6_addr *addr, struct in6_addr *
 }
 
 /**
+ * Add an addend to an address, from position of the ith most significant bit.
+ */
+void in6_addr_add(struct in6_addr *addr, uint8_t addend, uint8_t i)
+{
+    uint16_t sum;
+
+    while (addend) {
+        sum = addr->s6_addr[i] + addend; // Perform addition with the addend.
+
+        addr->s6_addr[i] = sum; // Save sum result to the byte.
+
+        addend = sum >> 8; // Carry overflow to next significant byte.
+
+        if (!--i) break; // Out of range.
+    }
+}
+
+/**
+ * Increment an address by one.
+ */
+void in6_addr_increment(struct in6_addr *addr)
+{
+    in6_addr_add(addr, 1, 15);
+}
+
+/**
  * Iterate over each network in the subnet.
  *
  * Increments by 2 to the power of subnet.
@@ -77,7 +85,6 @@ void in6_addr_end(struct in6_addr *end, struct in6_addr *addr, struct in6_addr *
 void in6_addr_iter(struct in6_addr *addr, uint8_t subnet)
 {
     uint8_t i, addend;
-    uint16_t sum;
 
     // Find the byte where begin addition.
     subnet--;
@@ -87,19 +94,7 @@ void in6_addr_iter(struct in6_addr *addr, uint8_t subnet)
     }
 
     addend = 1 << (7 - subnet);
-
-    // Addition on the byte, with overflow handling to the next significant byte.
-    while (true) {
-        sum = addr->s6_addr[i] + addend; // Perform addition with the addend.
-
-        //printf("%hhu + %hhu = %hu (%hhu)\n", addr->s6_addr[i], addend, sum, sum >> 8);
-
-        addr->s6_addr[i] = sum; // Save sum result to the byte.
-
-        addend = sum >> 8; // Carry overflow to next byte.
-
-        if (!--i || !addend) break; // Either out of range or nothing left to carry.
-    }
+    in6_addr_add(addr, addend, i);
 }
 
 int main(int argc, char **argv)
@@ -193,29 +188,17 @@ int main(int argc, char **argv)
         exit(EXIT_SUCCESS);
     }
 
-    if (bits < 96) {
-        fprintf(stderr, "Error: Subnet masks less than 96 bits are not currently supported in list mode.\n");
+    if (bits <= 96) {
+        fprintf(stderr, "Error: Too many.\n");
         exit(EXIT_FAILURE);
     }
 
-    // Extract the least significant 32 bits (quadlet) of the 128-bit address.
-    uint32_t lst_sig_quadlet = in6_addr_least_signficiant_32bits(&addr);
-
-    // Convert the prefix length (bits) into 32 bit binary mask.
-    uint32_t mask32 = ~(0xffffffff >> (bits - 96));
-
-    // Loop over and display every address in the given CIDR block.
-    uint32_t end32 = (lst_sig_quadlet & mask32) | ~mask32;
-    for (uint32_t i = lst_sig_quadlet & mask32; i <= end32; i++) {
-
-        // Transplant the quadlet onto the full 128 bit address.
-        for (uint8_t j = 0; j < 4; j++) {
-            addr.s6_addr[15 - j] = *((uint8_t*)&i + j);
-        }
-
-        // Transfer the IPv6 address into the character buffer and print.
-        inet_ntop(AF_INET6, &addr, addr_buffer, 48);
+    uint32_t n = (1 << (128 - bits));
+    for (uint32_t i = 0; i < n; i++) {
+        inet_ntop(AF_INET6, &start, addr_buffer, 48);
         printf("%s\n", addr_buffer);
+
+        in6_addr_increment(&start);
     }
 
     exit(EXIT_SUCCESS);
