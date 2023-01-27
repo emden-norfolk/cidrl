@@ -159,13 +159,13 @@ int main(int argc, char **argv)
             fprintf(stderr, "Error: Subnetwork must not be greater than 128.\n");
             exit(EXIT_FAILURE);
         }
-        if (subnet - bits >= 32) {
-            fprintf(stderr, "Error: Difference between bits and subnet too big.\n");
+        if (subnet - bits > 32) {
+            fprintf(stderr, "Error: Too many subnets.\n");
             exit(EXIT_FAILURE);
         }
 
-        uint32_t n = (1 << (subnet - bits));
-        for (uint32_t i = 0; i < n; i++) {
+        uint32_t n = 0xffffffff >> (32 - subnet + bits);
+        for (uint32_t i = 0; i <= n; i++) {
             inet_ntop(AF_INET6, &start, addr_buffer, 48);
             printf("%s/%hhu\n", addr_buffer, subnet);
 
@@ -188,13 +188,13 @@ int main(int argc, char **argv)
         exit(EXIT_SUCCESS);
     }
 
-    if (bits <= 96) {
-        fprintf(stderr, "Error: Too many.\n");
+    if (bits < 96) {
+        fprintf(stderr, "Error: Too many hosts.\n");
         exit(EXIT_FAILURE);
     }
 
-    uint32_t n = (1 << (128 - bits));
-    for (uint32_t i = 0; i < n; i++) {
+    uint32_t n = 0xffffffff >> (bits - 96);
+    for (uint32_t i = 0; i <= n; i++) {
         inet_ntop(AF_INET6, &start, addr_buffer, 48);
         printf("%s\n", addr_buffer);
 
