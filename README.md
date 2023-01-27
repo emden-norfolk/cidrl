@@ -4,7 +4,7 @@ List all IP addresses within a CIDR block (IPv4 and IPv6.)
 
 ## Installation
 
-```
+```console
 git clone git@github.com:emden-norfolk/cidrl.git
 cd cidrl/
 make
@@ -15,10 +15,15 @@ sudo make install
 
 ### `cidrl` for IPv4
 
-List all hosts in a /29:
+Analyse and list all hosts in a /29:
 
-```
+```console
 $ man cidrl
+$ cidrl -a 192.168.50.16/29
+Gateway:    192.168.50.16
+Broadcast:  192.168.50.23
+Netmask:    255.255.255.248
+Hosts:      8
 $ cidrl 192.168.50.16/29
 192.168.50.16
 192.168.50.17
@@ -28,16 +33,11 @@ $ cidrl 192.168.50.16/29
 192.168.50.21
 192.168.50.22
 192.168.50.23
-$ cidrl -a 192.168.50.16/29
-Gateway:    192.168.50.16
-Broadcast:  192.168.50.23
-Netmask:    255.255.255.248
-Hosts:      8
 ```
 
 Split a /24 into /28:
 
-```
+```console
 $ cidrl -s28 10.0.0.0/24
 10.0.0.0/28
 10.0.0.16/28
@@ -59,7 +59,7 @@ $ cidrl -s28 10.0.0.0/24
 
 ### `cidrl6` for IPv6
 
-```
+```console
 $ man cidrl6
 $ cidrl6 fa01::0000:0a10/124
 fa01::a10
