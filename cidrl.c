@@ -3,6 +3,8 @@
  *
  * Lists all IPv4 addresses within a CIDR block.
  *
+ * TODO `cidrl 16/28` should work.
+ *
  * @author Damien Bezborodov
  * @link https://github.com/emden-norfolk/cidrl
  */
@@ -11,6 +13,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <arpa/inet.h>
+#include <stdbool.h>
 
 extern char *optarg;
 extern int optind;
@@ -22,11 +25,15 @@ int main(int argc, char **argv) {
     unsigned int bits;
     int opt;
     int subnetwork = 0;
+    bool analyse = false;
 
-    while ((opt = getopt(argc, argv, "s:")) != -1) {
+    while ((opt = getopt(argc, argv, "as:")) != -1) {
         switch (opt) {
             case 's':
                 subnetwork = atoi(optarg);
+                break;
+            case 'a':
+                analyse = true;
                 break;
             default:
                 exit(1);
@@ -74,6 +81,17 @@ int main(int argc, char **argv) {
             printf("%s/%u\n", inet_ntoa(addr), subnetwork);
         }
 
+        return 0;
+    }
+
+    if (analyse) {
+        addr.s_addr = htonl(hladdr_start);
+        printf("Gateway:    %s\n", inet_ntoa(addr));
+        addr.s_addr = htonl(hladdr_end);
+        printf("Broadcast:  %s\n", inet_ntoa(addr));
+        addr.s_addr = htonl(mask);
+        printf("Netmask:    %s\n", inet_ntoa(addr));
+        printf("Hosts:      %u\n", hladdr_end - hladdr_start + 1);
         return 0;
     }
 

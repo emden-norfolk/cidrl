@@ -1,12 +1,12 @@
 # `cidrl` — CIDR List
 
-List all IP Addresses within a CIDR block (IPv4 and IPv6.)
+List all IP addresses within a CIDR block (IPv4 and IPv6.)
 
 ## Installation
 
 ```
 git clone git@github.com:emden-norfolk/cidrl.git
-cd cidrl
+cd cidrl/
 make
 sudo make install
 ```
@@ -28,6 +28,11 @@ $ cidrl 192.168.50.16/29
 192.168.50.21
 192.168.50.22
 192.168.50.23
+$ cidrl -a 192.168.50.16/29
+Gateway:    192.168.50.16
+Broadcast:  192.168.50.23
+Netmask:    255.255.255.248
+Hosts:      8
 ```
 
 Split a /24 into /28:
