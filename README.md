@@ -5,10 +5,10 @@ List all IP addresses within a CIDR block (IPv4 and IPv6.)
 ## Installation
 
 ```console
-git clone git@github.com:emden-norfolk/cidrl.git
-cd cidrl/
-make
-sudo make install
+$ git clone git@github.com:emden-norfolk/cidrl.git
+$ cd cidrl/
+$ make
+$ sudo make install
 ```
 
 ## Usage
