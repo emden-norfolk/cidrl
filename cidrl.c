@@ -86,7 +86,7 @@ int main(int argc, char **argv) {
 
     if (analyse) {
         addr.s_addr = htonl(hladdr_start);
-        printf("Gateway:    %s\n", inet_ntoa(addr));
+        printf("Network:    %s\n", inet_ntoa(addr));
         addr.s_addr = htonl(hladdr_end);
         printf("Broadcast:  %s\n", inet_ntoa(addr));
         addr.s_addr = htonl(mask);
