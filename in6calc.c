@@ -13,7 +13,7 @@
 void in6_addr_mask(struct in6_addr *mask, uint8_t bits)
 {
     for (uint8_t i = 0; i < 16; i++) {
-        mask->s6_addr[i] = ~0 << (8 - (bits > 8 ? 8 : bits));
+        mask->s6_addr[i] = bits ? ~0 << (8 - (bits > 8 ? 8 : bits)) : 0;
 
         if (bits < 8) bits = 0;
         else bits -= 8;
