@@ -91,7 +91,7 @@ int main(int argc, char **argv)
             inet_ntop(AF_INET6, &start, addr_buffer, 48);
             printf("%s/%hhu\n", addr_buffer, subnet);
 
-            in6_addr_iter(&start, subnet);
+            in6_addr_incr_pow2(&start, 128 - subnet);
         }
 
         exit(EXIT_SUCCESS);
@@ -120,7 +120,7 @@ int main(int argc, char **argv)
         inet_ntop(AF_INET6, &start, addr_buffer, 48);
         printf("%s\n", addr_buffer);
 
-        in6_addr_increment(&start);
+        in6_addr_incr_pow2(&start, 0);
     }
 
     exit(EXIT_SUCCESS);

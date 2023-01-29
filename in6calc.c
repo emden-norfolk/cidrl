@@ -34,11 +34,17 @@ void in6_addr_end(struct in6_addr *end, struct in6_addr *addr, struct in6_addr *
 }
 
 /**
- * Add an addend to an address, from position of the ith most significant bit.
+ * Increment an address by two to the power of n, where n is the exponent.
+ *
+ * To increment by 1, set n = 0. Remember that two to the power of zero is one.
  */
-void in6_addr_add(struct in6_addr *addr, uint8_t addend, uint8_t i)
+void in6_addr_incr_pow2(struct in6_addr *addr, uint8_t n)
 {
+    uint8_t i, addend;
     uint16_t sum;
+
+    i = (127 - n) / 8; // The byte where begin addition.
+    addend = 1 << (7 - ((127 - n) % 8)); // Scale the addend to i with the remainder.
 
     while (addend) {
         sum = addr->s6_addr[i] + addend; // Perform addition with the addend.
@@ -49,28 +55,4 @@ void in6_addr_add(struct in6_addr *addr, uint8_t addend, uint8_t i)
 
         if (!--i) break; // Out of range.
     }
-}
-
-/**
- * Increment an address by one.
- */
-void in6_addr_increment(struct in6_addr *addr)
-{
-    in6_addr_add(addr, 1, 15);
-}
-
-/**
- * Iterate over each network in the subnet.
- *
- * Increments by 2 to the power of subnet.
- */
-void in6_addr_iter(struct in6_addr *addr, uint8_t subnet)
-{
-    uint8_t i, addend;
-
-    i = (subnet - 1) / 8; // The byte where begin addition.
-
-    addend = 1 << (7 - ((subnet - 1) % 8));
-
-    in6_addr_add(addr, addend, i);
 }
