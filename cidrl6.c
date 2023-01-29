@@ -3,8 +3,6 @@
  *
  * Lists all IPv6 addresses within a CIDR block.
  *
- * Classless Inter-Domain Routing
- *
  * @author Damien Bezborodov
  * @link https://github.com/emden-norfolk/cidrl
  */
@@ -70,11 +68,11 @@ int main(int argc, char **argv)
 
     if (subnet) {
         if (subnet <= bits) {
-            fprintf(stderr, "Error: Subnetwork must be greater than bits.\n");
+            fprintf(stderr, "Error: Subnet must have less hosts than the network.\n");
             exit(EXIT_FAILURE);
         }
         if (subnet > 128) {
-            fprintf(stderr, "Error: Subnetwork must not be greater than 128.\n");
+            fprintf(stderr, "Error: Invalid subnet network prefix.\n");
             exit(EXIT_FAILURE);
         }
         if (subnet - bits > 64) {

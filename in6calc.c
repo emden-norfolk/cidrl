@@ -1,3 +1,10 @@
+/*
+ * IPv6 Address Calculations
+ *
+ * @author Damien Bezborodov
+ * @link https://github.com/emden-norfolk/cidrl
+ */
+
 #include <arpa/inet.h>
 
 /**

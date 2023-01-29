@@ -18,11 +18,13 @@
 extern char *optarg;
 extern int optind;
 
-int main(int argc, char **argv) {
+int main(int argc, char **argv)
+{
     char addr_buffer[15], whitespace;
     struct in_addr addr;
-    uint32_t mask, hladdr, hladdr_start, hladdr_end, i;
+    uint32_t hladdr, hlmask, hlstart, hlend;
     uint8_t bits;
+
     uint8_t subnet = 0;
     bool analyse = false;
     int opt;
@@ -56,26 +58,26 @@ int main(int argc, char **argv) {
     }
 
     if (bits > 32) {
-        fprintf(stderr, "Error: Invalid mask given.\n");
+        fprintf(stderr, "Error: Invalid network prefix given.\n");
         exit(EXIT_FAILURE);
     }
 
-    mask = bits == 0 ? 0 : ~0 << (32 - bits);
     hladdr = ntohl(addr.s_addr);
-    hladdr_start = hladdr & mask;
-    hladdr_end = (hladdr & mask) | ~mask;
+    hlmask = bits == 0 ? 0 : ~0 << (32 - bits);
+    hlstart = hladdr & hlmask;
+    hlend = (hladdr & hlmask) | ~hlmask;
 
     if (subnet) {
         if (subnet <= bits) {
-            fprintf(stderr, "Error: Subnetwork must be greater than bits.\n");
+            fprintf(stderr, "Error: Subnet must have less hosts than the network.\n");
             exit(EXIT_FAILURE);
         }
         if (subnet > 32) {
-            fprintf(stderr, "Error: Subnetwork must not be greater than 32.\n");
+            fprintf(stderr, "Error: Invalid subnet network prefix.\n");
             exit(EXIT_FAILURE);
         }
 
-        for (i = hladdr_start; i <= hladdr_end; i += (1 << (32 - subnet))) {
+        for (uint32_t i = hlstart; i <= hlend; i += (1 << (32 - subnet))) {
             addr.s_addr = htonl(i);
             printf("%s/%hhu\n", inet_ntoa(addr), subnet);
         }
@@ -84,24 +86,24 @@ int main(int argc, char **argv) {
     }
 
     if (analyse) {
-        addr.s_addr = htonl(hladdr_start);
+        addr.s_addr = htonl(hlstart);
         printf("Network:    %s\n", inet_ntoa(addr));
 
-        addr.s_addr = htonl(hladdr_end);
+        addr.s_addr = htonl(hlend);
         printf("Broadcast:  %s\n", inet_ntoa(addr));
 
-        addr.s_addr = htonl(mask);
+        addr.s_addr = htonl(hlmask);
         printf("Netmask:    %s\n", inet_ntoa(addr));
 
         if (bits)
-            printf("Hosts:      %u\n", hladdr_end - hladdr_start + 1);
+            printf("Hosts:      %u\n", hlend - hlstart + 1);
         else
             printf("Hosts:      4294967296\n");
 
         exit(EXIT_SUCCESS);
     }
 
-    for (i = hladdr_start; i <= hladdr_end; i++) {
+    for (uint32_t i = hlstart; i <= hlend; i++) {
         addr.s_addr = htonl(i);
         printf("%s\n", inet_ntoa(addr));
     }
