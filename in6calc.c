@@ -68,13 +68,9 @@ void in6_addr_iter(struct in6_addr *addr, uint8_t subnet)
 {
     uint8_t i, addend;
 
-    // Find the byte where begin addition.
-    subnet--;
-    for (i = 0; i < 16; i++) {
-        if (subnet < 8) break;
-        subnet -= 8;
-    }
+    i = (subnet - 1) / 8; // The byte where begin addition.
 
-    addend = 1 << (7 - subnet);
+    addend = 1 << (7 - ((subnet - 1) % 8));
+
     in6_addr_add(addr, addend, i);
 }
