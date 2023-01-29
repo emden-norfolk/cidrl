@@ -21,7 +21,7 @@ extern int optind;
 
 int main(int argc, char **argv)
 {
-    char addr_buffer[48];
+    char addr_buffer[48], whitespace;
     struct in6_addr addr, mask, start, end;
     uint8_t bits;
 
@@ -43,13 +43,16 @@ int main(int argc, char **argv)
     }
 
     // Check that a CIDR is given as an argument.
-    if (argc <= optind) {
+    if (argc - optind != 1) {
         fprintf(stderr, "Error: An IPv6 CIDR must be given as the first argument.\n");
         exit(EXIT_FAILURE);
     }
 
     // Scan the CIDR argument into separate network and network prefix.
-    sscanf(argv[optind], "%[^/]/%hhu", addr_buffer, &bits);
+    if (sscanf(argv[optind], "%[^/]/%hhu %c", addr_buffer, &bits, &whitespace) != 2) {
+        fprintf(stderr, "Error: Invalid IPv6 CIDR given.\n");
+        exit(EXIT_FAILURE);
+    }
 
     // Parse the IPv6 string into an integer.
     if (inet_pton(AF_INET6, addr_buffer, &addr) == 0) {
@@ -57,15 +60,8 @@ int main(int argc, char **argv)
         exit(EXIT_FAILURE);
     }
     if (bits > 128) {
-        fprintf(stderr, "Error: Invalid prefix bits given.\n");
+        fprintf(stderr, "Error: Invalid network prefix given.\n");
         exit(EXIT_FAILURE);
-    }
-
-    if (bits == 128) {
-        // There is only one address if the mask is 128 bits.
-        inet_ntop(AF_INET6, &addr, addr_buffer, 48);
-        printf("%s\n", addr_buffer);
-        exit(EXIT_SUCCESS);
     }
 
     in6_addr_mask(&mask, bits);
@@ -115,7 +111,7 @@ int main(int argc, char **argv)
         exit(EXIT_FAILURE);
     }
 
-    uint64_t n = (uint64_t)~0 >> (bits - 64);
+    uint64_t n = bits > 127 ? 0 : (uint64_t)~0 >> (bits - 64);
     for (uint64_t i = 0; i <= n; i++) {
         inet_ntop(AF_INET6, &start, addr_buffer, 48);
         printf("%s\n", addr_buffer);

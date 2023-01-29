@@ -19,7 +19,7 @@ extern char *optarg;
 extern int optind;
 
 int main(int argc, char **argv) {
-    char network[15];
+    char addr_buffer[15], whitespace;
     struct in_addr addr;
     uint32_t mask, hladdr, hladdr_start, hladdr_end, i;
     uint8_t bits;
@@ -40,25 +40,24 @@ int main(int argc, char **argv) {
         }
     }
 
-    if (argc <= optind) {
+    if (argc - optind != 1) {
         fprintf(stderr, "Error: An IPv4 CIDR must be given as the first argument.\n");
         exit(EXIT_FAILURE);
     }
 
-    sscanf(argv[optind], "%[^/]/%hhu", network, &bits);
-    if (inet_aton(network, &addr) == 0) {
-        fprintf(stderr, "Error: Invalid IP address given.\n");
+    if (sscanf(argv[optind], "%[^/]/%hhu %c", addr_buffer, &bits, &whitespace) != 2) {
+        fprintf(stderr, "Error: Invalid IPv4 CIDR given.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    if (inet_aton(addr_buffer, &addr) == 0) {
+        fprintf(stderr, "Error: Invalid IPv4 address given.\n");
         exit(EXIT_FAILURE);
     }
 
     if (bits > 32) {
         fprintf(stderr, "Error: Invalid mask given.\n");
         exit(EXIT_FAILURE);
-    }
-
-    if (bits == 32) {
-        printf("%s\n", inet_ntoa(addr));
-        exit(EXIT_SUCCESS);
     }
 
     mask = ~0 << (32 - bits);
