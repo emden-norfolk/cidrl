@@ -60,7 +60,7 @@ int main(int argc, char **argv) {
         exit(EXIT_FAILURE);
     }
 
-    mask = ~0 << (32 - bits);
+    mask = bits == 0 ? 0 : ~0 << (32 - bits);
     hladdr = ntohl(addr.s_addr);
     hladdr_start = hladdr & mask;
     hladdr_end = (hladdr & mask) | ~mask;
@@ -93,7 +93,10 @@ int main(int argc, char **argv) {
         addr.s_addr = htonl(mask);
         printf("Netmask:    %s\n", inet_ntoa(addr));
 
-        printf("Hosts:      %u\n", hladdr_end - hladdr_start + 1);
+        if (bits)
+            printf("Hosts:      %u\n", hladdr_end - hladdr_start + 1);
+        else
+            printf("Hosts:      4294967296\n");
 
         exit(EXIT_SUCCESS);
     }
