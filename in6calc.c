@@ -59,6 +59,6 @@ void in6_addr_incr_pow2(struct in6_addr *addr, uint8_t n)
 
         addend = sum >> 8; // Carry overflow to next significant byte.
 
-        if (!--i) break; // Go to next significant byte (and check if out of range.)
+        if (!i--) break; // Go to next significant byte (and check if out of range.)
     }
 }
