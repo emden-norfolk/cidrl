@@ -23,7 +23,7 @@ int main(int argc, char **argv)
     struct in6_addr addr, mask, start, end;
     uint8_t bits;
 
-    // Options
+    // Options.
     uint8_t subnet = 0;
     bool analyse = false;
     int opt;
