@@ -20,7 +20,7 @@ int main(int argc, char **argv)
 {
     char addr_buffer[15], whitespace;
     struct in_addr addr;
-    uint32_t hladdr, hlmask, hlstart, hlend;
+    uint32_t hladdr, hlmask, hlend;
     uint8_t bits;
 
     uint8_t subnet = 0;
@@ -62,8 +62,8 @@ int main(int argc, char **argv)
 
     hladdr = ntohl(addr.s_addr);
     hlmask = bits == 0 ? 0 : ~0 << (32 - bits);
-    hlstart = hladdr & hlmask;
-    hlend = hlstart | ~hlmask;
+    hladdr &= hlmask;
+    hlend = hladdr | ~hlmask;
 
     if (subnet) {
         if (subnet <= bits) {
@@ -75,7 +75,7 @@ int main(int argc, char **argv)
             exit(EXIT_FAILURE);
         }
 
-        for (uint32_t i = hlstart; i <= hlend; i += (1 << (32 - subnet))) {
+        for (uint32_t i = hladdr; i <= hlend; i += (1 << (32 - subnet))) {
             addr.s_addr = htonl(i);
             printf("%s/%hhu\n", inet_ntoa(addr), subnet);
         }
@@ -84,7 +84,7 @@ int main(int argc, char **argv)
     }
 
     if (analyse) {
-        addr.s_addr = htonl(hlstart);
+        addr.s_addr = htonl(hladdr);
         printf("Network:    %s\n", inet_ntoa(addr));
 
         addr.s_addr = htonl(hlend);
@@ -94,14 +94,14 @@ int main(int argc, char **argv)
         printf("Netmask:    %s\n", inet_ntoa(addr));
 
         if (bits)
-            printf("Hosts:      %u\n", hlend - hlstart + 1);
+            printf("Hosts:      %u\n", hlend - hladdr + 1);
         else
             printf("Hosts:      4294967296\n");
 
         exit(EXIT_SUCCESS);
     }
 
-    for (uint32_t i = hlstart; i <= hlend; i++) {
+    for (uint32_t i = hladdr; i <= hlend; i++) {
         addr.s_addr = htonl(i);
         printf("%s\n", inet_ntoa(addr));
     }
