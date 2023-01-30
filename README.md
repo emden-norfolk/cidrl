@@ -1,8 +1,8 @@
 # `cidrl` — CIDR List
 
-List all IP addresses within a CIDR block (IPv4 and IPv6.)
+**CIDRL** lists all IP addresses within a CIDR block (IPv4 and IPv6.) Supports subnetting.
 
-Supports subnetting.
+Classless Inter-Domain Routing (CIDR; *[rfc1519](https://tools.ietf.org/html/rfc1519)*) is a strategy for assigning and routing Internet Protocol (IP) addresses.
 
 ## Installation
 
