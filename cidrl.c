@@ -3,8 +3,6 @@
  *
  * Lists all IPv4 addresses within a CIDR block.
  *
- * TODO `cidrl 16/28` should work.
- *
  * @author Damien Bezborodov
  * @link https://github.com/emden-norfolk/cidrl
  */
