@@ -96,6 +96,11 @@ The following manual pages are helpful for understanding the implementation of C
  * [`inet_pton.3`](https://man7.org/linux/man-pages/man3/inet_pton.3.html)
  * [`inet_ntop.3`](https://man7.org/linux/man-pages/man3/inet_ntop.3.html)
 
+Further reading:
+
+ * Grothof, C. (2008), [*Migrating Code to IPv6
+the good, the bad and the ugly*](https://grothoff.org/christian/rmv608.pdf), Colorado Research Institute for Security and Privacy.
+
 ## Author
 
 2016 (c) Damien Bezborodov
