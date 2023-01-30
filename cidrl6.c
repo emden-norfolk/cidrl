@@ -19,7 +19,7 @@ extern int optind;
 
 int main(int argc, char **argv)
 {
-    char addr_buffer[48];
+    char addr_buffer[INET6_ADDRSTRLEN];
     struct in6_addr addr, mask, start, end;
     uint8_t bits;
 
@@ -85,7 +85,7 @@ int main(int argc, char **argv)
 
         uint64_t n = (uint64_t)~0 >> (64 - subnet + bits);
         for (uint64_t i = 0; i <= n; i++) {
-            inet_ntop(AF_INET6, &start, addr_buffer, 48);
+            inet_ntop(AF_INET6, &start, addr_buffer, INET6_ADDRSTRLEN);
             printf("%s/%hhu\n", addr_buffer, subnet);
 
             in6_addr_incr_pow2(&start, 128 - subnet);
@@ -96,13 +96,13 @@ int main(int argc, char **argv)
 
     // Analyse an IPv6 CIDR block.
     if (analyse) {
-        inet_ntop(AF_INET6, &start, addr_buffer, 48);
+        inet_ntop(AF_INET6, &start, addr_buffer, INET6_ADDRSTRLEN);
         printf("Start:      %s\n", addr_buffer);
 
-        inet_ntop(AF_INET6, &end, addr_buffer, 48);
+        inet_ntop(AF_INET6, &end, addr_buffer, INET6_ADDRSTRLEN);
         printf("End:        %s\n", addr_buffer);
 
-        inet_ntop(AF_INET6, &mask, addr_buffer, 48);
+        inet_ntop(AF_INET6, &mask, addr_buffer, INET6_ADDRSTRLEN);
         printf("Netmask:    %s\n", addr_buffer);
 
         exit(EXIT_SUCCESS);
@@ -116,7 +116,7 @@ int main(int argc, char **argv)
     }
     uint64_t n = bits > 127 ? 0 : (uint64_t)~0 >> (bits - 64);
     for (uint64_t i = 0; i <= n; i++) {
-        inet_ntop(AF_INET6, &start, addr_buffer, 48);
+        inet_ntop(AF_INET6, &start, addr_buffer, INET6_ADDRSTRLEN);
         printf("%s\n", addr_buffer);
 
         in6_addr_incr_pow2(&start, 0);
