@@ -48,7 +48,7 @@ void in6_addr_end(struct in6_addr *end, struct in6_addr *addr, struct in6_addr *
 void in6_addr_incr_pow2(struct in6_addr *addr, uint8_t n)
 {
     uint8_t i, addend;
-    uint16_t sum;
+    uint16_t sum; // 16-bit sum of two 8-bit integers.
 
     i = (127 - n) / 8; // The byte where begin addition.
     addend = 1 << (7 - ((127 - n) % 8)); // Scale the addend to i with the remainder.
