@@ -12,7 +12,7 @@
  */
 void in6_addr_mask(struct in6_addr *mask, uint8_t bits)
 {
-    for (uint8_t i = 0; i < 16; i++) {
+    for (uint8_t i = 0; i < sizeof(mask->s6_addr); i++) {
         mask->s6_addr[i] = bits ? ~0 << (8 - (bits > 8 ? 8 : bits)) : 0;
 
         if (bits < 8) bits = 0;
@@ -25,7 +25,7 @@ void in6_addr_mask(struct in6_addr *mask, uint8_t bits)
  */
 void in6_addr_start(struct in6_addr *start, struct in6_addr *addr, struct in6_addr *mask)
 {
-    for (uint8_t i = 0; i < 16; i++) {
+    for (uint8_t i = 0; i < sizeof(start->s6_addr); i++) {
         start->s6_addr[i] = addr->s6_addr[i] & mask->s6_addr[i];
     }
 }
@@ -35,7 +35,7 @@ void in6_addr_start(struct in6_addr *start, struct in6_addr *addr, struct in6_ad
  */
 void in6_addr_end(struct in6_addr *end, struct in6_addr *addr, struct in6_addr *mask)
 {
-    for (uint8_t i = 0; i < 16; i++) {
+    for (uint8_t i = 0; i < sizeof(end->s6_addr); i++) {
         end->s6_addr[i] = (addr->s6_addr[i] & mask->s6_addr[i]) | ~mask->s6_addr[i];
     }
 }
