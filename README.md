@@ -92,7 +92,7 @@ The following manual pages are helpful for understanding the implementation of C
  * [`scanf.3`](https://man7.org/linux/man-pages/man3/scanf.3.html)
  * [`byteorder.3`](https://man7.org/linux/man-pages/man3/byteorder.3.html)
  * [`atoi.3`](https://man7.org/linux/man-pages/man3/atoi.3.html)
- * [`inet.3`](https://man7.org/linux/man-pages/man3/inet_aton.3.html)
+ * [`inet.3`](https://man7.org/linux/man-pages/man3/inet.3.html)
  * [`inet_pton.3`](https://man7.org/linux/man-pages/man3/inet_pton.3.html)
  * [`inet_ntop.3`](https://man7.org/linux/man-pages/man3/inet_ntop.3.html)
 
