@@ -60,9 +60,8 @@ int main(int argc, char **argv)
         exit(EXIT_FAILURE);
     }
 
-    hladdr = ntohl(addr.s_addr);
     hlmask = bits ? ~0 << (32 - bits) : 0;
-    hladdr &= hlmask;
+    hladdr = ntohl(addr.s_addr) & hlmask;
     hlend = hladdr | ~hlmask;
 
     if (subnet) {
