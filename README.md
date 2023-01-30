@@ -95,6 +95,7 @@ The following manual pages are helpful for understanding the implementation of C
  * [`inet.3`](https://man7.org/linux/man-pages/man3/inet.3.html)
  * [`inet_pton.3`](https://man7.org/linux/man-pages/man3/inet_pton.3.html)
  * [`inet_ntop.3`](https://man7.org/linux/man-pages/man3/inet_ntop.3.html)
+ * [`ipv6.7`](https://man7.org/linux/man-pages/man7/ipv6.7.html)
 
 Further reading:
 
