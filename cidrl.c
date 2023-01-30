@@ -18,15 +18,16 @@ extern int optind;
 
 int main(int argc, char **argv)
 {
-    char addr_buffer[15], whitespace;
+    char addr_buffer[15];
     struct in_addr addr;
     uint32_t hladdr, hlmask, hlend;
     uint8_t bits;
 
+    // Options.
+    char whitespace; // Detect trailing characters in sscanf.
     uint8_t subnet = 0;
     bool analyse = false;
     int opt;
-
     while ((opt = getopt(argc, argv, "as:")) != -1) {
         switch (opt) {
             case 's':
@@ -40,30 +41,30 @@ int main(int argc, char **argv)
         }
     }
 
+    // Input, conversion, and error detection.
     if (argc - optind != 1) {
         fprintf(stderr, "Error: An IPv4 CIDR must be given as the first argument.\n");
         exit(EXIT_FAILURE);
     }
-
     if (sscanf(argv[optind], "%[^/]/%hhu %c", addr_buffer, &bits, &whitespace) != 2) {
         fprintf(stderr, "Error: Invalid IPv4 CIDR given.\n");
         exit(EXIT_FAILURE);
     }
-
     if (inet_aton(addr_buffer, &addr) == 0) {
         fprintf(stderr, "Error: Invalid IPv4 address given.\n");
         exit(EXIT_FAILURE);
     }
-
     if (bits > 32) {
         fprintf(stderr, "Error: Invalid network prefix given.\n");
         exit(EXIT_FAILURE);
     }
 
+    // Calculate IPv4 network range and mask.
     hlmask = bits ? ~0 << (32 - bits) : 0;
     hladdr = ntohl(addr.s_addr) & hlmask;
     hlend = hladdr | ~hlmask;
 
+    // Split a CIDR block into smaller subnetworks.
     if (subnet) {
         if (subnet <= bits) {
             fprintf(stderr, "Error: Subnet must have less hosts than the network.\n");
@@ -82,6 +83,7 @@ int main(int argc, char **argv)
         exit(EXIT_SUCCESS);
     }
 
+    // Analyse a CIDR block.
     if (analyse) {
         addr.s_addr = htonl(hladdr);
         printf("Network:    %s\n", inet_ntoa(addr));
@@ -100,6 +102,7 @@ int main(int argc, char **argv)
         exit(EXIT_SUCCESS);
     }
 
+    // List all IP addresses in a CIDR block.
     for (uint32_t i = hladdr; i <= hlend; i++) {
         addr.s_addr = htonl(i);
         printf("%s\n", inet_ntoa(addr));

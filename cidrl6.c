@@ -19,14 +19,15 @@ extern int optind;
 
 int main(int argc, char **argv)
 {
-    char addr_buffer[48], whitespace;
+    char addr_buffer[48];
     struct in6_addr addr, mask, start, end;
     uint8_t bits;
 
+    // Options
+    char whitespace; // Detect trailing characters in sscanf.
     uint8_t subnet = 0;
     bool analyse = false;
     int opt;
-
     while ((opt = getopt(argc, argv, "as:")) != -1) {
         switch (opt) {
             case 's':
@@ -62,10 +63,12 @@ int main(int argc, char **argv)
         exit(EXIT_FAILURE);
     }
 
+    // Calculate IPv6 network range and mask.
     in6_addr_mask(&mask, bits);
     in6_addr_start(&start, &addr, &mask);
     in6_addr_end(&end, &start, &mask);
 
+    // Split a IPv6 CIDR block into smaller subnetworks.
     if (subnet) {
         if (subnet <= bits) {
             fprintf(stderr, "Error: Subnet must have less hosts than the network.\n");
@@ -91,6 +94,7 @@ int main(int argc, char **argv)
         exit(EXIT_SUCCESS);
     }
 
+    // Analyse an IPv6 CIDR block.
     if (analyse) {
         inet_ntop(AF_INET6, &start, addr_buffer, 48);
         printf("Start:      %s\n", addr_buffer);
@@ -104,11 +108,12 @@ int main(int argc, char **argv)
         exit(EXIT_SUCCESS);
     }
 
+
+    // List all IPv6 addresses in a CIDR block.
     if (bits < 64) {
         fprintf(stderr, "Error: Too many hosts.\n");
         exit(EXIT_FAILURE);
     }
-
     uint64_t n = bits > 127 ? 0 : (uint64_t)~0 >> (bits - 64);
     for (uint64_t i = 0; i <= n; i++) {
         inet_ntop(AF_INET6, &start, addr_buffer, 48);
