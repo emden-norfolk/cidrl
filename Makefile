@@ -4,7 +4,7 @@ cidrl: cidrl.c
 	gcc -o cidrl cidrl.c -Wall
 
 cidrl6: cidrl6.c in6calc.c in6calc.c
-	gcc -o cidrl6 cidrl6.c in6calc.c -Wall -lm
+	gcc -o cidrl6 cidrl6.c in6calc.c -Wall
 
 clean:
 	rm cidrl cidrl6
