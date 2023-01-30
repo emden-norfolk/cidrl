@@ -61,7 +61,7 @@ int main(int argc, char **argv)
     }
 
     hladdr = ntohl(addr.s_addr);
-    hlmask = bits == 0 ? 0 : ~0 << (32 - bits);
+    hlmask = bits ? ~0 << (32 - bits) : 0;
     hladdr &= hlmask;
     hlend = hladdr | ~hlmask;
 
