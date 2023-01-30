@@ -89,8 +89,8 @@ fa01:0:0:ffaf::/64
 The following manual pages are helpful for understanding the implementation of CIDRL:
 
  * [`getopt.3`](https://man7.org/linux/man-pages/man3/getopt.3.html)
- * [`sscanf.3`](https://man7.org/linux/man-pages/man3/scanf.3.html)
- * [`byteorder.3`](https://man7.org/linux/man-pages/man3/htons.3.html)
+ * [`scanf.3`](https://man7.org/linux/man-pages/man3/scanf.3.html)
+ * [`byteorder.3`](https://man7.org/linux/man-pages/man3/byteorder.3.html)
  * [`atoi.3`](https://man7.org/linux/man-pages/man3/atoi.3.html)
  * [`inet.3`](https://man7.org/linux/man-pages/man3/inet_aton.3.html)
  * [`inet_pton.3`](https://man7.org/linux/man-pages/man3/inet_pton.3.html)
