@@ -64,7 +64,7 @@ int main(int argc, char **argv)
 
     in6_addr_mask(&mask, bits);
     in6_addr_start(&start, &addr, &mask);
-    in6_addr_end(&end, &addr, &mask);
+    in6_addr_end(&end, &start, &mask);
 
     if (subnet) {
         if (subnet <= bits) {
