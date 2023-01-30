@@ -24,7 +24,6 @@ int main(int argc, char **argv)
     uint8_t bits;
 
     // Options.
-    char whitespace; // Detect trailing characters in sscanf.
     uint8_t subnet = 0;
     bool analyse = false;
     int opt;
@@ -46,6 +45,7 @@ int main(int argc, char **argv)
         fprintf(stderr, "Error: An IPv4 CIDR must be given as the first argument.\n");
         exit(EXIT_FAILURE);
     }
+    char whitespace; // Detect trailing characters in sscanf.
     if (sscanf(argv[optind], "%[^/]/%hhu %c", addr_buffer, &bits, &whitespace) != 2) {
         fprintf(stderr, "Error: Invalid IPv4 CIDR given.\n");
         exit(EXIT_FAILURE);
