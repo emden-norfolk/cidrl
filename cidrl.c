@@ -63,7 +63,7 @@ int main(int argc, char **argv)
     hladdr = ntohl(addr.s_addr);
     hlmask = bits == 0 ? 0 : ~0 << (32 - bits);
     hlstart = hladdr & hlmask;
-    hlend = (hladdr & hlmask) | ~hlmask;
+    hlend = hlstart | ~hlmask;
 
     if (subnet) {
         if (subnet <= bits) {
