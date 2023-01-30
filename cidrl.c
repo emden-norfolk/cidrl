@@ -18,7 +18,7 @@ extern int optind;
 
 int main(int argc, char **argv)
 {
-    char addr_buffer[15];
+    char addr_buffer[INET_ADDRSTRLEN];
     struct in_addr addr;
     uint32_t hladdr, hlmask, hlend;
     uint8_t bits;
