@@ -6,6 +6,9 @@ cidrl: cidrl.c
 cidrl6: cidrl6.c in6calc.c in6calc.h
 	gcc -o cidrl6 cidrl6.c in6calc.c -Wall
 
+tags: in6calc.c
+	ctags in6calc.c
+
 clean:
 	rm cidrl cidrl6
 
