@@ -13,6 +13,8 @@
 #include <unistd.h>
 #include <arpa/inet.h>
 
+#define EXIT_NOT_EXISTS 64
+
 extern char *optarg;
 extern int optind;
 
@@ -20,20 +22,29 @@ int main(int argc, char **argv)
 {
     char addr_buffer[INET_ADDRSTRLEN];
     struct in_addr addr;
-    uint32_t hladdr, hlmask, hlend;
+    uint32_t hladdr, hlmask, hlend, hlhost;
     uint8_t bits;
 
     // Options.
     uint8_t subnet = 0;
     bool analyse = false;
+    bool exists = false;
     int opt;
-    while ((opt = getopt(argc, argv, "as:")) != -1) {
+    while ((opt = getopt(argc, argv, "as:e:")) != -1) {
         switch (opt) {
             case 's':
                 subnet = atoi(optarg);
                 break;
             case 'a':
                 analyse = true;
+                break;
+            case 'e':
+                if (inet_aton(optarg, &addr) == 0) {
+                    fprintf(stderr, "Error: Invalid IPv4 address given.\n");
+                    exit(EXIT_FAILURE);
+                }
+                hlhost = ntohl(addr.s_addr);
+                exists = true;
                 break;
             default:
                 exit(EXIT_FAILURE);
@@ -99,7 +110,22 @@ int main(int argc, char **argv)
         else
             printf("Hosts:      4294967296\n");
 
+        if (exists) {
+            addr.s_addr = htonl(hlhost);
+            printf("\nThe host %s %s within this network.\n",
+                    inet_ntoa(addr),
+                    (hlhost & hlmask) == hladdr ? "exists" : "does not exist");
+        }
+
         exit(EXIT_SUCCESS);
+    }
+
+    // Check if host exists within network.
+    if (exists) {
+        if ((hlhost & hlmask) == hladdr)
+            exit(EXIT_SUCCESS);
+        else
+            exit(EXIT_NOT_EXISTS);
     }
 
     // List all IP addresses in a CIDR block.
