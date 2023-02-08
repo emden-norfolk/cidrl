@@ -2,7 +2,7 @@
 #
 # CIDRL IPv6 Example
 #
-# Split a /60 into /64 then /68 with tree view.
+# Split a /56 into /60 then /64 with tree view.
 
 print_subnet () {
     if [ "$2" = true ]; then
@@ -15,7 +15,7 @@ print_subnet () {
 
     local line2
     local sub2net
-    for line2 in $(cidrl6 -s68 $subnet); do
+    for line2 in $(cidrl6 -s64 $subnet); do
         if [ -z "$sub2net" ]; then
             sub2net=$line2
             continue
@@ -45,11 +45,11 @@ print_sub2net () {
     echo $1
 }
 
-network="fa01:0:0:ffa0::/60"
+network="fa01:0:0:ff00::/56"
 
 echo $network
 
-for line in $(cidrl6 -s64 $network); do
+for line in $(cidrl6 -s60 $network); do
     if [ -z "$subnet" ]; then
         subnet=$line
         continue
