@@ -1,4 +1,8 @@
 #!/bin/bash
+#
+# CIDRL IPv4 Example
+#
+# Check if a host exists within a given network.
 
 network="192.168.50.16/29"
 hosts="192.168.50.15 192.168.50.16 192.168.50.17 192.168.50.24"

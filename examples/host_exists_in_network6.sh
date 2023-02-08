@@ -1,4 +1,8 @@
 #!/bin/bash
+#
+# CIDRL IPv6 Example
+#
+# Check if a host exists within a given network.
 
 network="fa01:0:0:ffa0::/64"
 hosts="fa01::ffa0:b:20:0:3d44 fa01:0:0:ffb0:3::ae90"
