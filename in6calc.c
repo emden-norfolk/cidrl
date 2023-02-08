@@ -23,10 +23,10 @@ void in6_addr_mask(struct in6_addr *mask, uint8_t bits)
 /**
  * Calculate the first address in a network given a mask.
  */
-void in6_addr_start(struct in6_addr *start, struct in6_addr *addr, struct in6_addr *mask)
+void in6_addr_network(struct in6_addr *network, struct in6_addr *addr, struct in6_addr *mask)
 {
-    for (uint8_t i = 0; i < sizeof(start->s6_addr); i++) {
-        start->s6_addr[i] = addr->s6_addr[i] & mask->s6_addr[i];
+    for (uint8_t i = 0; i < sizeof(network->s6_addr); i++) {
+        network->s6_addr[i] = addr->s6_addr[i] & mask->s6_addr[i];
     }
 }
 

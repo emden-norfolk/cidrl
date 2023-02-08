@@ -13,6 +13,8 @@
 #include <unistd.h>
 #include <arpa/inet.h>
 
+#include "version.h"
+
 #define EXIT_NOT_EXISTS 64
 
 extern char *optarg;
@@ -30,8 +32,12 @@ int main(int argc, char **argv)
     bool analyse = false;
     bool exists = false;
     int opt;
-    while ((opt = getopt(argc, argv, "as:e:")) != -1) {
+    while ((opt = getopt(argc, argv, "vas:e:")) != -1) {
         switch (opt) {
+            case 'v':
+                printf("%s\n", version());
+                exit(EXIT_SUCCESS);
+                break;
             case 's':
                 subnet = atoi(optarg);
                 break;

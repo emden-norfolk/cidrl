@@ -1,9 +1,9 @@
 all: cidrl cidrl6
 
-cidrl: cidrl.c
+cidrl: cidrl.c version.h
 	gcc -o cidrl cidrl.c -Wall
 
-cidrl6: cidrl6.c in6calc.c in6calc.h
+cidrl6: cidrl6.c version.h in6calc.c in6calc.h
 	gcc -o cidrl6 cidrl6.c in6calc.c -Wall
 
 tags: in6calc.c
