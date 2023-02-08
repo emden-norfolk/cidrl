@@ -59,6 +59,8 @@ $ cidrl -s28 10.0.0.0/24
 10.0.0.240/28
 ```
 
+See [`examples/host_exists_in_network.sh`](examples/host_exists_in_network.sh) for an example on how to use the `-e` option to programmatically check if a host exists within a given network. Alternatively, use `cidrl -ae <host> <network>`.
+
 ### `cidrl6` for IPv6
 
 Split an IPv6 /60 into /64:
