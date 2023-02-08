@@ -86,6 +86,17 @@ fa01:0:0:ffae::/64
 fa01:0:0:ffaf::/64
 ```
 
+Analyse an IPv6 network and check if a given host exists within it:
+
+```
+$ cidrl6 -ae fa01:0:0:ffb0:3::ae90 fa01:0:0:ffa0::/64
+Network:    fa01:0:0:ffa0::
+Range-end:  fa01::ffa0:ffff:ffff:ffff:ffff
+Netmask:    ffff:ffff:ffff:ffff::
+
+The host fa01::ffb0:3:0:0:ae90 does not exist within this network.
+```
+
 ## References
 
 The following manual pages are helpful for understanding the implementation of CIDRL:
