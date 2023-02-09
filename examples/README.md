@@ -16,12 +16,6 @@ The host fa01::ffa0:b:20:0:3d44 exists in the network fa01:0:0:ffa0::/64.
 The host fa01:0:0:ffb0:3::ae90 does not exist in the network fa01:0:0:ffa0::/64.
 ```
 
-## `host_exists_in_network6.sh`
-
-```console
-The host fa01::ffa0:b:20:0:3d44 exists in the network fa01:0:0:ffa0::/64.
-The host fa01:0:0:ffb0:3::ae90 does not exist in the network fa01:0:0:ffa0::/64.
-```
 ## `subnet_tree6.sh`
 
 ```console
