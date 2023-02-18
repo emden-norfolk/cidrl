@@ -118,6 +118,7 @@ the good, the bad and the ugly*](https://grothoff.org/christian/rmv608.pdf), Col
 See also:
 
  * [Nmap](https://nmap.org/)
+ * [`prips`](https://gitlab.com/prips/prips/)
 
 ## Author
 
