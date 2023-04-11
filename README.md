@@ -4,15 +4,6 @@
 
 Classless Inter-Domain Routing (CIDR; *[rfc1519](https://tools.ietf.org/html/rfc1519)*) is a strategy for assigning and routing Internet Protocol (IP) addresses.
 
-## Installation
-
-```console
-$ git clone git@github.com:emden-norfolk/cidrl.git
-$ cd cidrl/
-$ make
-$ sudo make install
-```
-
 ## Usage
 
 ### `cidrl` for IPv4
@@ -95,6 +86,15 @@ Range-end:  fa01::ffa0:ffff:ffff:ffff:ffff
 Netmask:    ffff:ffff:ffff:ffff::
 
 The host fa01::ffb0:3:0:0:ae90 does not exist within this network.
+```
+
+## Installation
+
+```console
+$ git clone git@github.com:emden-norfolk/cidrl.git
+$ cd cidrl/
+$ make
+$ sudo make install
 ```
 
 ## References
