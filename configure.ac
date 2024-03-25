@@ -3,7 +3,7 @@
 
 AC_PREREQ([2.71])
 AC_INIT([FULL-PACKAGE-NAME], [VERSION], [BUG-REPORT-ADDRESS])
-AC_CONFIG_SRCDIR([cidrl.c,cidrl6.c])
+AC_CONFIG_SRCDIR([cidrl.c])
 AC_CONFIG_HEADERS([config.h])
 
 # Checks for programs.
