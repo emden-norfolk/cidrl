@@ -5,6 +5,11 @@ Summary:  List all IP addresses within a CIDR block.
 License:  BSD
 URL:      https://github.com/emden-norfolk/cidrl
 Source:   https://github.com/emden-norfolk/cidrl/archive/refs/tags/v%{version}.tar.gz
+BuildRequires:  bash
+BuildRequires:  coreutils
+BuildRequires:  gcc
+BuildRequires:  glibc-common
+BuildRequires:  make
 
 %description
 CIDRL lists all IP addresses within a CIDR block (IPv4 and IPv6.) Supports subnetting.
@@ -13,7 +18,7 @@ CIDRL lists all IP addresses within a CIDR block (IPv4 and IPv6.) Supports subne
 %autosetup
 
 %build
-%configure
+%configure --enable-nls --disable-rpath
 %make_build
 
 %install
