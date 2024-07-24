@@ -25,6 +25,9 @@ CIDRL lists all IP addresses within a CIDR block (IPv4 and IPv6.) Supports subne
 %make_install
 
 %files
+%{_bindir}/cidrl
+%{_bindir}/cidrl6
+%doc README.md
 
 %changelog
 %autochangelog
