@@ -1,5 +1,5 @@
 Name:     cidrl
-Version:  1.0.0
+Version:  1.0.2
 Release:  %autorelease
 Summary:  List all IP addresses within a CIDR block.
 License:  BSD
